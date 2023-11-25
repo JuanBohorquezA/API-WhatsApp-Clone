@@ -43,7 +43,6 @@ router.get('/getConversations', middleware.verificarJWT, async (req, res) => {
                     });
                 }
             }
-            console.log("Conversaciones: ",conversations)
             if(conversations.length == 0){
                 return res.status(404).send({ message: "Conversations not found", status: 404, data: null });
             }
@@ -103,7 +102,7 @@ router.get('/getMessagesBetweenUsers', middleware.verificarJWT, async (req, res)
             participants: { $all: [userPhoneNumber1, userPhoneNumber2] }
         }).populate('messages').exec(); // Aquí se asume que "messages" es una referencia a otro modelo
 
-        if (conversation == null) {
+        if (conversation.length == 0) {
             return res.status(404).send({ message: "Conversation not found", status: 404, data: null });
         }
 
