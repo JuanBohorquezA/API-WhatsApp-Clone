@@ -44,7 +44,7 @@ router.get('/getConversations', middleware.verificarJWT, async (req, res) => {
                 }
             }
             console.log("Conversaciones: ",conversations)
-            if(conversations == null){
+            if(conversations.length == 0){
                 return res.status(404).send({ message: "Conversations not found", status: 404, data: null });
             }
     
