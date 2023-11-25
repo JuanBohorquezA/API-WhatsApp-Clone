@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.post('/signUp', middleware.ValuetokenSignUp, async(req, res) => {
     try{
-      if(funciones.isNullOrEmpty(req.body.PhoneNumber) || funciones.isNullOrEmpty(req.body.Name) ||funciones.isNullOrEmpty(req.body.Email)){
+      if(funciones.isNullOrEmpty(req.body.PhoneNumber) || funciones.isNullOrEmpty(req.body.Name) ||funciones.isNullOrEmpty(req.body.Email) || funciones.isNullOrEmpty(req.body.Photo)){
          return res.status(400).send({message: "Please fill all the fields", status: 400, data: null}); 
       }
       if(await ExistUser(req.body.PhoneNumber)){
