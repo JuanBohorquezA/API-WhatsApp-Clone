@@ -43,6 +43,9 @@ router.get('/getConversations', middleware.verificarJWT, async (req, res) => {
                     });
                 }
             }
+            if(allConversations == null){
+                return res.status(404).send({ message: "Conversations not found", status: 404, data: null });
+            }
     
             return res.status(200).send({ message: "Success", status: 200, data: allConversations });
     } catch (error) {
@@ -59,6 +62,10 @@ router.get('/availableUsers', middleware.verificarJWT, async (req, res) => {
 
         const users = await userSchema.find({PhoneNumber: { $ne: req.query.PhoneNumber}}, { __v: 0 }); // Ejemplo para excluir al usuario actual
 
+        if (users == null) {
+            return res.status(404).send({ message: "Users not found", status: 404, data: null });
+        }
+
         // Devuelve la lista de usuarios
         return res.status(200).send({ message: "Usuarios disponibles", status: 200, data: users });
     } catch (error) {
@@ -73,6 +80,9 @@ router.get('/getUserData', middleware.verificarJWT, async (req, res) =>{
         }
         const user = await userSchema.findOne({PhoneNumber: req.query.PhoneNumber}, { _id: 0, __v: 0 });
         
+        if(user == null){
+            return res.status(404).send({ message: "User not found", status: 404, data: null });
+        }
     
         return res.status(200).send({ message: "Success", status: 200, data: user });
     }
@@ -92,7 +102,7 @@ router.get('/getMessagesBetweenUsers', middleware.verificarJWT, async (req, res)
             participants: { $all: [userPhoneNumber1, userPhoneNumber2] }
         }).populate('messages').exec(); // Aquí se asume que "messages" es una referencia a otro modelo
 
-        if (!conversation) {
+        if (conversation == null) {
             return res.status(404).send({ message: "Conversation not found", status: 404, data: null });
         }
 
