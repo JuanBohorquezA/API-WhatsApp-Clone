@@ -18,6 +18,10 @@ app.use('/api',SendMessageRoutes);
 app.use('/api',conversacions);
 
 
+//index
+app.get('/', (req, res) => {
+  res.send("Hello World");
+})
 
 //dbConnection
 mongoose.connect(process.env.MONGOSEDB)
